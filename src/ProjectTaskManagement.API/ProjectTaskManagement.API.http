@@ -1,0 +1,73 @@
+@ProjectTaskManagement.API_HostAddress = http://localhost:5063
+
+@token = replace-with-jwt-token
+@projectId = replace-with-project-id
+@taskId = replace-with-task-id
+
+POST {{ProjectTaskManagement.API_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "Interview Candidate",
+  "email": "candidate@example.com",
+  "password": "Password123"
+}
+
+###
+
+POST {{ProjectTaskManagement.API_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "candidate@example.com",
+  "password": "Password123"
+}
+
+###
+
+GET {{ProjectTaskManagement.API_HostAddress}}/api/projects
+Authorization: Bearer {{token}}
+
+###
+
+POST {{ProjectTaskManagement.API_HostAddress}}/api/projects
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Backend Interview Task",
+  "description": "Project for technical assessment"
+}
+
+###
+
+GET {{ProjectTaskManagement.API_HostAddress}}/api/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+
+###
+
+POST {{ProjectTaskManagement.API_HostAddress}}/api/projects/{{projectId}}/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Implement authentication",
+  "description": "Add register and login endpoints",
+  "dueDate": "2026-05-25T00:00:00Z",
+  "priority": 3
+}
+
+###
+
+PATCH {{ProjectTaskManagement.API_HostAddress}}/api/tasks/{{taskId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": 2
+}
+
+###
+
+DELETE {{ProjectTaskManagement.API_HostAddress}}/api/tasks/{{taskId}}
+Authorization: Bearer {{token}}
