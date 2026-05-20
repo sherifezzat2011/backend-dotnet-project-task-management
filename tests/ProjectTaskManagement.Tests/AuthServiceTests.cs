@@ -59,9 +59,19 @@ public sealed class AuthServiceTests
             return Task.CompletedTask;
         }
 
+        public Task<IReadOnlyList<AppUser>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult<IReadOnlyList<AppUser>>(_users);
+        }
+
         public Task<AppUser?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(_users.FirstOrDefault(user => user.Email == email));
+        }
+
+        public Task<AppUser?> GetByIdAsync(Guid userId, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
         }
     }
 

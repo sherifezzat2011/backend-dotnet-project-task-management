@@ -97,6 +97,16 @@ internal static class RequestValidator
         }
     }
 
+    public static void ValidateUserRole(UserRole role)
+    {
+        if (!Enum.IsDefined(role))
+        {
+            throw new ValidationException(
+                "One or more validation errors occurred.",
+                [new ValidationError(nameof(role), "Invalid user role.")]);
+        }
+    }
+
     private static void ValidateEmail(string email, List<ValidationError> errors)
     {
         if (string.IsNullOrWhiteSpace(email))

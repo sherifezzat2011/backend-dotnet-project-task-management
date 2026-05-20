@@ -23,6 +23,11 @@ public sealed class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
         builder.Property(user => user.PasswordHash)
             .IsRequired();
 
+        builder.Property(user => user.Role)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .IsRequired();
+
         builder.HasIndex(user => user.Email)
             .IsUnique();
     }
