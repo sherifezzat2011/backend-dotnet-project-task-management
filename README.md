@@ -12,13 +12,14 @@ A scalable backend API for managing projects and tasks, built as a technical ass
 - Clean Architecture
 - xUnit
 - Swagger
+- MediatR
 
 ## Solution Structure
 
 - `src/ProjectTaskManagement.API`
   HTTP layer, controllers, middleware, Swagger, and application startup.
 - `src/ProjectTaskManagement.Application`
-  Use cases, DTOs, validation, abstractions, mapping, and application exceptions.
+  Use cases, DTOs, validation, abstractions, mapping, application exceptions, and CQRS command/query handlers.
 - `src/ProjectTaskManagement.Domain`
   Core entities and enums.
 - `src/ProjectTaskManagement.Infrastructure`
@@ -58,6 +59,7 @@ A scalable backend API for managing projects and tasks, built as a technical ass
 - Global exception handling
 - Generic response wrapper
 - User ownership isolation for projects and tasks
+- CQRS with MediatR
 
 ## Getting Started
 
@@ -134,5 +136,6 @@ dotnet test
 ## Notes
 
 - The project uses `ProjectTask` and `ProjectTaskStatus` naming internally to avoid conflicts with built-in .NET `Task` and `TaskStatus`.
+- API requests are routed through MediatR handlers using a CQRS-style split between commands and queries.
 - Migration files are included under `src/ProjectTaskManagement.Infrastructure/Persistence/Migrations`.
 - Swagger is provided instead of a Postman collection as allowed by the task requirements.
