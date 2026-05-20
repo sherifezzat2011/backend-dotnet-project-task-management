@@ -3,6 +3,7 @@
 @token = replace-with-jwt-token
 @projectId = replace-with-project-id
 @taskId = replace-with-task-id
+@userId = replace-with-user-id
 
 POST {{ProjectTaskManagement.API_HostAddress}}/api/auth/register
 Content-Type: application/json
@@ -71,3 +72,28 @@ Content-Type: application/json
 
 DELETE {{ProjectTaskManagement.API_HostAddress}}/api/tasks/{{taskId}}
 Authorization: Bearer {{token}}
+
+###
+
+POST {{ProjectTaskManagement.API_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@projecttask.local",
+  "password": "Admin123!"
+}
+
+###
+
+GET {{ProjectTaskManagement.API_HostAddress}}/api/admin/users
+Authorization: Bearer {{token}}
+
+###
+
+PATCH {{ProjectTaskManagement.API_HostAddress}}/api/admin/users/{{userId}}/role
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "role": 2
+}

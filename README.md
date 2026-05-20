@@ -13,6 +13,7 @@ A scalable backend API for managing projects and tasks, built as a technical ass
 - xUnit
 - Swagger
 - MediatR
+- Role-based Authorization
 
 ## Solution Structure
 
@@ -34,6 +35,7 @@ A scalable backend API for managing projects and tasks, built as a technical ass
 - Register user
 - Login user
 - JWT token generation
+- Role claim included in JWT
 
 ### Projects
 
@@ -50,6 +52,11 @@ A scalable backend API for managing projects and tasks, built as a technical ass
 - Update task status
 - Delete task
 
+### Admin
+
+- List all users (`Admin` only)
+- Update user role (`Admin` only)
+
 ### Cross-Cutting
 
 - Clean Architecture layering
@@ -60,6 +67,7 @@ A scalable backend API for managing projects and tasks, built as a technical ass
 - Generic response wrapper
 - User ownership isolation for projects and tasks
 - CQRS with MediatR
+- Admin role seeding and role-protected endpoints
 
 ## Getting Started
 
@@ -78,6 +86,9 @@ Update these if needed:
 - `Jwt:Issuer`
 - `Jwt:Audience`
 - `Jwt:SecretKey`
+- `AdminSeed:FullName`
+- `AdminSeed:Email`
+- `AdminSeed:Password`
 
 ### Run Database Migration
 
@@ -125,6 +136,11 @@ When running in Development, Swagger UI is available at:
 - `PATCH /api/tasks/{id}/status`
 - `DELETE /api/tasks/{id}`
 
+### Admin
+
+- `GET /api/admin/users`
+- `PATCH /api/admin/users/{id}/role`
+
 ## Tests
 
 Run tests with:
@@ -137,5 +153,6 @@ dotnet test
 
 - The project uses `ProjectTask` and `ProjectTaskStatus` naming internally to avoid conflicts with built-in .NET `Task` and `TaskStatus`.
 - API requests are routed through MediatR handlers using a CQRS-style split between commands and queries.
+- The application seeds a default admin user on startup and applies migrations automatically.
 - Migration files are included under `src/ProjectTaskManagement.Infrastructure/Persistence/Migrations`.
 - Swagger is provided instead of a Postman collection as allowed by the task requirements.

@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddMediatR(typeof(ServiceCollectionExtensions).Assembly);
         services.AddScoped<AuthService>();
+        services.AddScoped<AdminService>();
         services.AddScoped<ProjectService>();
         services.AddScoped<TaskService>();
 

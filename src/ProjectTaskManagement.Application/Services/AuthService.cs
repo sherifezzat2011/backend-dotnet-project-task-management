@@ -3,6 +3,7 @@ using ProjectTaskManagement.Application.Abstractions.Persistence;
 using ProjectTaskManagement.Application.DTOs.Auth;
 using ProjectTaskManagement.Application.Exceptions;
 using ProjectTaskManagement.Domain.Entities;
+using ProjectTaskManagement.Domain.Enums;
 
 namespace ProjectTaskManagement.Application.Services;
 
@@ -27,13 +28,14 @@ public sealed class AuthService(
         {
             FullName = request.FullName.Trim(),
             Email = normalizedEmail,
-            PasswordHash = passwordHasher.Hash(request.Password)
+            PasswordHash = passwordHasher.Hash(request.Password),
+            Role = UserRole.User
         };
 
         await userRepository.AddAsync(user, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new AuthResponse(user.Id, user.FullName, user.Email, jwtTokenGenerator.GenerateToken(user));
+        return new AuthResponse(user.Id, user.FullName, user.Email, user.Role.ToString(), jwtTokenGenerator.GenerateToken(user));
     }
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request, CancellationToken cancellationToken = default)
@@ -48,6 +50,6 @@ public sealed class AuthService(
             throw new UnauthorizedException("Invalid email or password.");
         }
 
-        return new AuthResponse(user.Id, user.FullName, user.Email, jwtTokenGenerator.GenerateToken(user));
+        return new AuthResponse(user.Id, user.FullName, user.Email, user.Role.ToString(), jwtTokenGenerator.GenerateToken(user));
     }
 }

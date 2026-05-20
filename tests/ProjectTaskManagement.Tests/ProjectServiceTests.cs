@@ -72,6 +72,8 @@ public sealed class ProjectServiceTests
     private sealed class FakeCurrentUserService(Guid userId) : ICurrentUserService
     {
         public Guid GetUserId() => userId;
+
+        public bool IsInRole(string role) => false;
     }
 
     private sealed class FakeUnitOfWork : IUnitOfWork

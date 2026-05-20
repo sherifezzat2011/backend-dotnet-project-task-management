@@ -4,6 +4,7 @@ using ProjectTaskManagement.Application.DTOs.Projects;
 using ProjectTaskManagement.Application.Exceptions;
 using ProjectTaskManagement.Application.Mapping;
 using ProjectTaskManagement.Domain.Entities;
+using ProjectTaskManagement.Domain.Enums;
 
 namespace ProjectTaskManagement.Application.Services;
 
@@ -66,7 +67,7 @@ public sealed class ProjectService(
         var project = await projectRepository.GetByIdAsync(projectId, cancellationToken)
             ?? throw new NotFoundException("Project not found.");
 
-        if (project.OwnerId != currentUserService.GetUserId())
+        if (project.OwnerId != currentUserService.GetUserId() && !currentUserService.IsInRole(nameof(UserRole.Admin)))
         {
             throw new ForbiddenException("You do not have access to this project.");
         }

@@ -18,4 +18,9 @@ public sealed class CurrentUserService(IHttpContextAccessor httpContextAccessor)
 
         return userId;
     }
+
+    public bool IsInRole(string role)
+    {
+        return httpContextAccessor.HttpContext?.User.IsInRole(role) ?? false;
+    }
 }

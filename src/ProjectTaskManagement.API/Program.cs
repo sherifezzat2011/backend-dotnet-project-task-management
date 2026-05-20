@@ -2,6 +2,7 @@ using ProjectTaskManagement.Application.Extensions;
 using ProjectTaskManagement.Infrastructure;
 using ProjectTaskManagement.Infrastructure.Authentication;
 using ProjectTaskManagement.API.Middleware;
+using ProjectTaskManagement.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,12 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    var dbInitializer = scope.ServiceProvider.GetRequiredService<DbInitializer>();
+    await dbInitializer.InitializeAsync();
+}
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
